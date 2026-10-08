@@ -1,0 +1,4 @@
+/* Gallery icon. The ic-<name> class comes from style-name in visualizations.xml. */
+.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvBulletChart > div > div {
+    background: url("images/icon.svg") center / 28px 28px no-repeat scroll;
+}

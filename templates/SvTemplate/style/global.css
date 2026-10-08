@@ -1,0 +1,47 @@
+/* Every rule is scoped to this visualization's container so nothing leaks into Strategy's own UI. */
+
+.custom-vis-layout.svtemplate .sv-root {
+    display: block;
+    font-size: 11px;
+}
+
+.custom-vis-layout.svtemplate .sv-hit {
+    fill: transparent;
+}
+
+.custom-vis-layout.svtemplate .sv-row {
+    cursor: pointer;
+}
+
+.custom-vis-layout.svtemplate .sv-row:hover .sv-hit {
+    fill: rgba(0, 0, 0, 0.04);
+}
+
+.custom-vis-layout.svtemplate .sv-label {
+    fill: #35383a;
+}
+
+.custom-vis-layout.svtemplate .sv-value {
+    fill: #5f6368;
+}
+
+.custom-vis-layout.svtemplate .sv-has-selection .sv-row {
+    opacity: 0.35;
+}
+
+.custom-vis-layout.svtemplate .sv-has-selection .sv-row.sv-selected {
+    opacity: 1;
+}
+
+.custom-vis-layout.svtemplate .sv-row.sv-selected .sv-bar,
+.custom-vis-layout.svtemplate .sv-row.sv-context .sv-bar {
+    stroke: #1f1f1f;
+    stroke-width: 1.5;
+}
+
+/* Icon in the document Insert > Widget menu. */
+#RwMenuModel_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuLayoutxml #mnuInsertWgSvTemplate,
+#RwMenuModelEditor_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuEditorLayoutxml #mnuInsertWgSvTemplate {
+    background: url("images/icon.svg") 4px center / 12px 12px no-repeat scroll;
+    padding: 3px 0 3px 14px;
+}

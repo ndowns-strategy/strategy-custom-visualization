@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Strategy viz harness</title>
+    <link rel="stylesheet" href="harness.css">
+</head>
+<body>
+<header class="bar">
+    <strong class="brand">strategy-visualizations</strong>
+    <label>Plugin <select id="plugin"></select></label>
+    <label>Dataset <select id="dataset"></select></label>
+    <label class="chk"><input type="checkbox" id="theme"> Dark theme</label>
+    <button type="button" id="export">Simulate PDF export</button>
+    <span class="muted note">Local mock of mstrmojo — confirm in Workstation/Library before shipping.</span>
+</header>
+
+<main class="layout">
+    <aside class="panel">
+        <h2>Gallery</h2>
+        <div id="gallery" class="gallery"></div>
+
+        <h2>Editor — drop zones <button type="button" id="reset-zones" class="link">reset</button></h2>
+        <div id="zones"></div>
+    </aside>
+
+    <section class="stage">
+        <h1 id="plugin-title">Loading…</h1>
+        <ul id="warnings" class="warnings" hidden></ul>
+        <div id="frame" class="frame">
+            <div id="viz"></div>
+        </div>
+        <div id="status" class="muted"></div>
+        <p class="muted hint">Click to select (Ctrl/⌘-click for multi-select), right-click for the context menu, hover for tooltips, drag the corner to resize.</p>
+    </section>
+
+    <aside class="panel">
+        <h2>Format</h2>
+        <div id="props"></div>
+
+        <h2>Event log <button type="button" id="clear-log" class="link">clear</button></h2>
+        <ul id="log" class="log"></ul>
+    </aside>
+</main>
+
+<div id="tooltip" class="tooltip" hidden></div>
+<ul id="menu" class="menu" role="menu" hidden></ul>
+
+<script src="mock-mstrmojo.js"></script>
+<script src="datasets.js"></script>
+<script src="harness.js"></script>
+</body>
+</html>

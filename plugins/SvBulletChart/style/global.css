@@ -1,0 +1,86 @@
+/* Every rule is scoped to this visualization's container so nothing leaks into Strategy's own UI. */
+
+.custom-vis-layout.svbulletchart {
+    overflow-x: hidden;
+}
+
+.custom-vis-layout.svbulletchart .sv-root {
+    display: block;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.custom-vis-layout.svbulletchart .sv-empty {
+    padding: 12px;
+    color: #6b6b6b;
+    font-size: 12px;
+}
+
+.custom-vis-layout.svbulletchart .sv-hit {
+    fill: transparent;
+}
+
+.custom-vis-layout.svbulletchart .sv-row {
+    cursor: pointer;
+}
+
+.custom-vis-layout.svbulletchart .sv-row:hover .sv-hit {
+    fill: rgba(0, 0, 0, 0.04);
+}
+
+.custom-vis-layout.svbulletchart .sv-label,
+.custom-vis-layout.svbulletchart .sv-value {
+    fill: #35383a;
+}
+
+.custom-vis-layout.svbulletchart .sv-value {
+    fill: #5f6368;
+    font-variant-numeric: tabular-nums;
+}
+
+.custom-vis-layout.svbulletchart .sv-band-poor { fill: #d9d9d9; }
+.custom-vis-layout.svbulletchart .sv-band-ok   { fill: #e8e8e8; }
+.custom-vis-layout.svbulletchart .sv-band-good { fill: #f4f4f4; }
+
+.custom-vis-layout.svbulletchart .sv-target {
+    stroke: #1f1f1f;
+    stroke-width: 2;
+}
+
+.custom-vis-layout.svbulletchart .sv-zero {
+    stroke: #9aa0a6;
+    stroke-width: 1;
+}
+
+/* Selection: dim everything that is not selected, outline what is. */
+.custom-vis-layout.svbulletchart .sv-has-selection .sv-row {
+    opacity: 0.35;
+}
+
+.custom-vis-layout.svbulletchart .sv-has-selection .sv-row.sv-selected {
+    opacity: 1;
+}
+
+.custom-vis-layout.svbulletchart .sv-row.sv-selected .sv-bar,
+.custom-vis-layout.svbulletchart .sv-row.sv-context .sv-bar {
+    stroke: #1f1f1f;
+    stroke-width: 1.5;
+}
+
+/* Dark theme (the plugin adds .sv-dark when mstrApp reports a dark theme). */
+.custom-vis-layout.svbulletchart .sv-dark .sv-label { fill: #e8eaed; }
+.custom-vis-layout.svbulletchart .sv-dark .sv-value { fill: #bdc1c6; }
+.custom-vis-layout.svbulletchart .sv-dark .sv-band-poor { fill: #4a4d52; }
+.custom-vis-layout.svbulletchart .sv-dark .sv-band-ok   { fill: #3c3f44; }
+.custom-vis-layout.svbulletchart .sv-dark .sv-band-good { fill: #313438; }
+.custom-vis-layout.svbulletchart .sv-dark .sv-target { stroke: #f1f3f4; }
+.custom-vis-layout.svbulletchart .sv-dark .sv-row:hover .sv-hit { fill: rgba(255, 255, 255, 0.05); }
+.custom-vis-layout.svbulletchart .sv-dark .sv-row.sv-selected .sv-bar,
+.custom-vis-layout.svbulletchart .sv-dark .sv-row.sv-context .sv-bar { stroke: #f1f3f4; }
+
+/* Icon in the document Insert > Widget menu. */
+#RwMenuModel_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuLayoutxml #mnuInsertWgSvBulletChart,
+#RwMenuModelEditor_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuEditorLayoutxml #mnuInsertWgSvBulletChart {
+    background: url("images/icon.svg") 4px center / 12px 12px no-repeat scroll;
+    padding: 3px 0 3px 14px;
+}
