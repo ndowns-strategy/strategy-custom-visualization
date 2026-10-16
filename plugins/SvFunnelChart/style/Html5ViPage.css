@@ -1,0 +1,5 @@
+/* Gallery icon. Library and Workstation load it from global.css; classic Web loads Html5ViPage.css,
+   so the same rule lives in both files. The ic-<name> class comes from style-name in visualizations.xml. */
+.ic-SvFunnelChart > div > div {
+    background: url("images/icon.svg") center / 28px 28px no-repeat scroll;
+}

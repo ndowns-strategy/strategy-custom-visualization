@@ -54,6 +54,26 @@
             rows: salesRows()
         },
         {
+            // Totals by stage match the funnel example: 268 / 94 / 74 / 37 / 14.
+            id: "pipeline",
+            name: "Sales pipeline (Sales Stage × Region)",
+            attributes: [
+                {id: "ATTR_STAGE", name: "Sales Stage"},
+                {id: "ATTR_SREGION", name: "Region"}
+            ],
+            metrics: [
+                {id: "MET_OPP_COUNT", name: "Opportunity Count", format: {}},
+                {id: "MET_PIPE_VALUE", name: "Pipeline Value", format: {prefix: "$"}}
+            ],
+            rows: [
+                ["Lead", "Americas", 120, 2400000], ["Lead", "EMEA", 90, 1710000], ["Lead", "APAC", 58, 980000],
+                ["Qualify", "Americas", 40, 1120000], ["Qualify", "EMEA", 30, 810000], ["Qualify", "APAC", 24, 590000],
+                ["Solution", "Americas", 33, 1060000], ["Solution", "EMEA", 25, 760000], ["Solution", "APAC", 16, 450000],
+                ["Proposal", "Americas", 17, 690000], ["Proposal", "EMEA", 12, 470000], ["Proposal", "APAC", 8, 280000],
+                ["Finalize", "Americas", 6, 310000], ["Finalize", "EMEA", 5, 240000], ["Finalize", "APAC", 3, 120000]
+            ]
+        },
+        {
             id: "kpis",
             name: "Department KPIs (long labels, a negative value)",
             attributes: [

@@ -13,6 +13,7 @@ export.
 | Plugin | Gallery name | What it shows | Data |
 |---|---|---|---|
 | [`SvBulletChart`](plugins/SvBulletChart) | Bullet Chart (KPI) | Actual vs. target per item, against poor / satisfactory / good bands (% of target). Sort by value or attainment, threshold colors, value and % labels. | Category: 1+ attributes · Actual: 1 metric · Target: 1 metric (optional) · Tooltip: any |
+| [`SvFunnelChart`](plugins/SvFunnelChart) | Funnel Chart | Centered bars per stage sized by the metric, with a 100% bracket over the first stage and the last stage as % of the first. Labels: value, % of first, both or none; stage order or largest first. | Stage: 1+ attributes · Value: 1 metric · Tooltip: any |
 
 ## Quick start
 

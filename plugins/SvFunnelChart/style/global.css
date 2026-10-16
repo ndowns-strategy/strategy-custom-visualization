@@ -1,0 +1,96 @@
+/* Every rule is scoped to this visualization's container so nothing leaks into Strategy's own UI. */
+
+.custom-vis-layout.svfunnelchart {
+    overflow-x: hidden;
+}
+
+.custom-vis-layout.svfunnelchart .sv-root {
+    display: block;
+    font-size: 12px;
+}
+
+.custom-vis-layout.svfunnelchart .sv-empty {
+    padding: 12px;
+    color: #6b6b6b;
+    font-size: 12px;
+}
+
+.custom-vis-layout.svfunnelchart .sv-hit {
+    fill: transparent;
+}
+
+.custom-vis-layout.svfunnelchart .sv-row {
+    cursor: pointer;
+}
+
+.custom-vis-layout.svfunnelchart .sv-row:hover .sv-hit {
+    fill: rgba(0, 0, 0, 0.04);
+}
+
+.custom-vis-layout.svfunnelchart .sv-label {
+    fill: #35383a;
+}
+
+.custom-vis-layout.svfunnelchart .sv-value {
+    fill: #35383a;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.custom-vis-layout.svfunnelchart .sv-value-inside {
+    fill: #ffffff;
+}
+
+.custom-vis-layout.svfunnelchart .sv-value-inside.sv-value-dark {
+    fill: #1f1f1f;
+}
+
+.custom-vis-layout.svfunnelchart .sv-bracket path {
+    fill: none;
+    stroke: #8a8f98;
+    stroke-width: 1;
+}
+
+.custom-vis-layout.svfunnelchart .sv-bracket text {
+    fill: #5f6368;
+    font-size: 11px;
+}
+
+/* Selection: dim everything that is not selected, outline what is. */
+.custom-vis-layout.svfunnelchart .sv-has-selection .sv-row {
+    opacity: 0.35;
+}
+
+.custom-vis-layout.svfunnelchart .sv-has-selection .sv-row.sv-selected {
+    opacity: 1;
+}
+
+.custom-vis-layout.svfunnelchart .sv-row.sv-selected .sv-bar,
+.custom-vis-layout.svfunnelchart .sv-row.sv-context .sv-bar {
+    stroke: #1f1f1f;
+    stroke-width: 1.5;
+}
+
+/* Dark theme (the plugin adds .sv-dark when mstrApp reports a dark theme). */
+.custom-vis-layout.svfunnelchart .sv-dark .sv-label { fill: #e8eaed; }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-value { fill: #e8eaed; }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-value-inside { fill: #ffffff; }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-value-inside.sv-value-dark { fill: #1f1f1f; }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-bracket path { stroke: #9aa0a6; }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-bracket text { fill: #bdc1c6; }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-row:hover .sv-hit { fill: rgba(255, 255, 255, 0.05); }
+.custom-vis-layout.svfunnelchart .sv-dark .sv-row.sv-selected .sv-bar,
+.custom-vis-layout.svfunnelchart .sv-dark .sv-row.sv-context .sv-bar { stroke: #f1f3f4; }
+
+/* Gallery icon. Library and Workstation load it from global.css; classic Web loads Html5ViPage.css,
+   so the same rule lives in both files. The ic-<name> class comes from style-name in visualizations.xml. */
+.ic-SvFunnelChart > div > div {
+    background: url("images/icon.svg") center / 28px 28px no-repeat scroll;
+}
+
+/* Icon in the document Insert > Widget menu. */
+#RwMenuModel_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuLayoutxml #mnuInsertWgSvFunnelChart,
+#RwMenuModelEditor_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuEditorLayoutxml #mnuInsertWgSvFunnelChart {
+    background: url("images/icon.svg") 4px center / 12px 12px no-repeat scroll;
+    padding: 3px 0 3px 14px;
+}
