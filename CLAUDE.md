@@ -32,7 +32,11 @@ used here, including the "Doc inconsistencies" table.
 - Scope all CSS under `.custom-vis-layout.<cssClass>`. The one exception is the gallery icon rule
   `.ic-<Name> > div > div`, which goes in `global.css` (Library/Workstation) and again in
   `Html5ViPage.css` (classic Web).
-- `visualizations.xml` must set `use-react-config="false"` and `use-binary-data="false"` explicitly.
+- Package plugins like the custom visualizations known to work on the team's Library server
+  (SequencesSunburst, D3WordCloud): a `_custom_vis_` marker file,
+  `WEB-INF/classes/resources/MessagesBundle*.properties`, styleCatalog.xml in the mstr-viz layout,
+  and visualizations.xml without `id` or `use-react-config`. `scripts/new-viz.sh` and the template
+  already do this.
 - Plugin files must be ASCII; write other characters as `\uXXXX` escapes.
 - Deploy the folder under its exact plugin name. A renamed folder silently fails to load.
 - Property values are strings. Declare every property in `DEFAULT_PROPS` and call

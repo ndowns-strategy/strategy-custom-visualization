@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE StyleCatalog SYSTEM "styleCatalog.dtd">
-<StyleCatalog version="2.0">
-    <Styles>
-        <!-- name must match style-name in config/visualizations.xml; description is not shown to users. -->
-        <Style name="SvBulletChart" description="Bullet chart: actual vs. target with performance bands" transform="ReportAjaxMojoVisualizationTransform">
-            <ActualParameters>
-                <ActualParameter name="documentStyle" type="1" value="RWGridJsonStyle"/>
-                <ActualParameter name="reportXMLStyle" type="1" value="VisualizationServerJsonDataStyle"/>
-                <ActualParameter name="mojoClassName" type="1" value="plugins.SvBulletChart.SvBulletChart"/>
-            </ActualParameters>
-            <Layouts>
-                <Layout layout_source="AppLayoutSourceFile" order="1">
-                    <![CDATA[/WEB-INF/xml/layouts/MojoVisualizationLayout.xml]]>
-                </Layout>
-            </Layouts>
-        </Style>
-    </Styles>
+<StyleCatalog name="Empty style catalog">
+  <BeanDefns/>
+  <LayoutParserDefns/>
+  <TransformDefns/>
+  <LayoutSourceDefns/>
+  <MapperDefns/>
+  <StyleMaps/>
+  <Styles>
+    <Style name="SvBulletChart" transform="ReportAjaxMojoVisualizationTransform">
+      <ActualParameters>
+        <ActualParameter name="documentStyle" value="RWGridJsonStyle"/>
+        <ActualParameter name="reportXMLStyle" value="VisualizationServerJsonDataStyle"/>
+        <ActualParameter name="mojoClassName" value="plugins.SvBulletChart.SvBulletChart"/>
+      </ActualParameters>
+      <Layouts>
+        <Layout layout_source="AppLayoutSourceFile"><![CDATA[/WEB-INF/xml/layouts/MojoVisualizationLayout.xml]]></Layout>
+      </Layouts>
+    </Style>
+  </Styles>
 </StyleCatalog>

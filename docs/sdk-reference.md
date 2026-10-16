@@ -59,6 +59,7 @@ When this file and the official docs disagree, the docs win — but see
 
 ```
 <PluginName>/
+├── _custom_vis_                      # marker file, contents "IT'S JUST A TOKEN FILE"          — include it
 ├── javascript/mojo/js/source/
 │   ├── <PluginName>.js               # visualization class (extends CustomVisBase)        — required
 │   ├── <PluginName>DropZones.js      # Editor-panel drop zones (CustomVisDropZones)       — optional
@@ -71,8 +72,14 @@ When this file and the official docs disagree, the docs win — but see
 └── WEB-INF/
     ├── xml/styleCatalog.xml          # style that maps to the JS class                    — required
     ├── xml/config/visualizations.xml # registers the visualization in the gallery         — required
-    └── classes/resources/MessagesBundle*.properties   # i18n strings                      — optional
+    └── classes/resources/MessagesBundle*.properties   # i18n strings (may be empty)       — include it
 ```
+
+**Ship what working plugins ship.** Every custom visualization confirmed to load on the team's
+Library server (SequencesSunburst, D3WordCloud, and Strategy's own DonutChart) has `_custom_vis_` and
+`WEB-INF/classes/resources/MessagesBundle*.properties` (often empty). In mstr-viz 2.15.5's source,
+`_custom_vis_` only marks a folder the build tool created. Whether Library also reads it isn't
+documented, so treat both as required. `scripts/validate.py` enforces them.
 
 Naming chain — these must agree or the visualization silently doesn't load:
 
@@ -96,12 +103,11 @@ deployment, the code is never found and the visualization doesn't appear, with n
 ```xml
 <visualizations>
   <visualization-list name="ajax" show-in-web="true" view-mode="51">
-    <visualization id="SvBulletChart" desc="Bullet Chart" style-name="SvBulletChart"
+    <visualization desc="Bullet Chart" style-name="SvBulletChart"
                    is-mojo="true" scope="19" widget-type="7"
                    attribute-minimum="1" metric-minimum="1"
                    drop-zones="plugins.SvBulletChart.SvBulletChartDropZones"
                    editor-model="plugins.SvBulletChart.SvBulletChartEditorModel"
-                   use-react-config="false" use-binary-data="false"
                    categories="KPI,Custom"
                    summary="…" use-case="Example: …" requirements="Uses 1+ ##attributes### and 1 #metric###"/>
   </visualization-list>
@@ -110,7 +116,7 @@ deployment, the code is never found and the visualization doesn't appear, with n
 
 | Attribute | Meaning |
 |---|---|
-| `id` | Unique id; use the plugin name. |
+| `id` | Shown in old docs only. Working plugins and the current tool leave it out, and so does this repo. |
 | `desc` | Name shown in the gallery / document widget list. |
 | `style-name` | `<Style name>` in styleCatalog.xml. Also drives the `ic-<style-name>` icon class. |
 | `is-mojo` | `"true"` for HTML5/mojo visualizations (omit only in mobile document lists — see §20). |
@@ -121,15 +127,12 @@ deployment, the code is never found and the visualization doesn't appear, with n
 | `categories` | Gallery sections, comma-separated (default `Custom`). 2021 Update 5+. |
 | `summary`, `use-case`, `requirements` | Gallery hover tooltip — **all three or none**; overrides the min-count text. In `requirements`, `##…###` marks attribute text and `#…###` marks metric text (rendered with icons). |
 | `desc-id`, `summary-id`, `use-case-id`, `requirements-id` | i18n ids (`Prefix.N`) that override the literal strings. |
-| `use-react-config` | `"true"` = React Format panel (needs the mstr-viz-built `formatPanelConfig/` / `formatPanelBundles/`); `"false"` = classic `editor-model`. **Always set it explicitly**: the docs disagree on the default. |
-| `use-binary-data` | `"false"` for JSON grid data (what `DataInterface` here reads). The current tool always writes it. |
+| `use-react-config` | `"true"` = React Format panel (needs the mstr-viz-built `formatPanelConfig/` / `formatPanelBundles/`). Leave it out for a classic `editor-model`, as working custom plugins do. |
+| `use-binary-data` | Written by the current tool (`"false"`); working custom plugins leave it out. |
 
-The Custom Visualization Tool (mstr-viz 2.15.x) generates this file from `config.js` and writes
-`desc`, `drop-zones`, `editor-model`, `is-mojo`, `scope`, `style-name`, `widget-type`, the gallery
-tooltip and i18n ids, `categories`, `use-react-config` and `use-binary-data`. It no longer writes
-`id`, `attribute-minimum` or `metric-minimum`. Its build also adds a `_custom_vis_` file and a
-`version.json` to the plugin. Those are only for the tool: `_custom_vis_` marks a folder the tool
-created so it may overwrite it. Strategy doesn't need either file.
+The Custom Visualization Tool (mstr-viz 2.15.x) generates this file from `config.js`. Its build
+also writes `_custom_vis_` (see §2) and, in newer builds, `version.json`. This repo's plugins match
+the working custom plugins: the attributes in the example above and no `id`.
 
 ## 4. styleCatalog.xml
 
@@ -542,7 +545,7 @@ zh-TW, da, de, nl, en-GB, en-US, fr (BE/FR/CH), de-CH, it (IT/CH), ja, ko, pl, p
 | `reportXMLStyle` | Older MstrVisTemplate: `VisualizationDataStyle` | `VisualizationServerJsonDataStyle` (current docs + samples). |
 | Icon class | Some pages show `ic-<Name>Style` | `ic-<style-name>`; we keep `style-name` = plugin name so they match. |
 | `addFilterMenuItem` vs `addUseAsFilterMenuItem` | Prose says the former, code the latter | `addUseAsFilterMenuItem()` (used by samples). |
-| `use-react-config` default | Gallery-placement page: default `true`; Build & deploy page: React panel disabled by default | Always set it explicitly (`"false"` for hand-written plugins). |
+| `use-react-config` default | Gallery-placement page: default `true`; Build & deploy page: React panel disabled by default | Leave it out (working custom plugins with a classic editor model omit it). |
 | Gallery icon file | Icon pages: `Html5ViPage.css`; current mstr-viz build: `global.css` (Html5ViPage.css is an empty placeholder) | The same rule in both files. |
 
 If Strategy behaves differently from this table in your version, fix it here and in the template.

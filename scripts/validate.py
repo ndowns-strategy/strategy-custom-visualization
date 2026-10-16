@@ -105,6 +105,12 @@ def validate(plugin):
     if not NAME_RE.match(plugin):
         report.error("plugin folder names must be letters and digits only (no symbols)")
 
+    # Every working custom visualization (and the Custom Visualization Tool's build) has this marker file.
+    if not (plugin_dir / "_custom_vis_").is_file():
+        report.error("missing _custom_vis_ marker file (working custom visualizations all have it)")
+    if not (plugin_dir / "WEB-INF" / "classes" / "resources" / "MessagesBundle.properties").is_file():
+        report.warn("missing WEB-INF/classes/resources/MessagesBundle.properties (working custom visualizations ship one)")
+
     vis_root = parse_xml(plugin_dir / "WEB-INF" / "xml" / "config" / "visualizations.xml", report)
     cat_root = parse_xml(plugin_dir / "WEB-INF" / "xml" / "styleCatalog.xml", report)
     if vis_root is None or cat_root is None:
@@ -136,10 +142,10 @@ def validate(plugin):
         if vis.get(k) is not None and not vis.get(k).isdigit():
             report.error(f"{k} must be a whole number")
 
-    # The docs disagree on the default, so the React Format panel flag must be explicit.
+    # Working custom visualizations omit use-react-config; "true" needs the mstr-viz-built React panel.
     react = vis.get("use-react-config")
-    if react not in ("true", "false"):
-        report.error('<visualization> needs use-react-config="false" (or "true" with a built React Format panel)')
+    if react not in (None, "true", "false"):
+        report.error('use-react-config must be "true" or "false" if set')
     elif react == "true" and not ((plugin_dir / "formatPanelConfig").is_dir() or (plugin_dir / "formatPanelBundles").is_dir()):
         report.error('use-react-config="true" but the plugin has no formatPanelConfig/ or formatPanelBundles/ (mstr-viz build output)')
     if vis.get("use-binary-data") not in (None, "false"):
@@ -201,8 +207,8 @@ def validate(plugin):
         for selector_group in re.findall(r"([^{}]+)\{", text):
             for selector in selector_group.split(","):
                 selector = selector.strip()
-                allowed = (scope, icon_class, "#RwMenuModel", "@")
-                if selector and not selector.startswith(allowed):
+                allowed = (scope, "#RwMenuModel", "@")
+                if selector and not selector.startswith(allowed) and icon_class not in selector:
                     report.warn(f'style/global.css: selector "{selector}" is not scoped to {scope}')
 
     for path in plugin_dir.rglob("*"):

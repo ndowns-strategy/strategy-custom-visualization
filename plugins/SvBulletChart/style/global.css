@@ -78,10 +78,11 @@
 .custom-vis-layout.svbulletchart .sv-dark .sv-row.sv-selected .sv-bar,
 .custom-vis-layout.svbulletchart .sv-dark .sv-row.sv-context .sv-bar { stroke: #f1f3f4; }
 
-/* Gallery icon. Library and Workstation load it from global.css; classic Web loads Html5ViPage.css,
-   so the same rule lives in both files. The ic-<name> class comes from style-name in visualizations.xml. */
-.ic-SvBulletChart > div > div {
-    background: url("images/icon.svg") center / 28px 28px no-repeat scroll;
+/* Gallery icon (same selector and file as the Custom Visualization Tool's build output). */
+.mojo-theme-dark .mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvBulletChart > div > div,
+.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvBulletChart > div > div {
+    background: url("images/icon.svg") no-repeat scroll;
+    background-size: 30px;
 }
 
 /* Icon in the document Insert > Widget menu. */

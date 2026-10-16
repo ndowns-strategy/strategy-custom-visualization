@@ -1,18 +1,14 @@
 <visualizations>
-    <!-- scope 19 = reports + document grids + dashboards; widget-type 7 = uses custom drop zones. -->
     <visualization-list name="ajax" show-in-web="true" view-mode="51">
-        <visualization id="SvTemplate"
+        <visualization attribute-minimum="1"
                        desc="__SV_TITLE__"
-                       style-name="SvTemplate"
-                       is-mojo="true"
-                       scope="19"
-                       widget-type="7"
-                       attribute-minimum="1"
-                       metric-minimum="1"
                        drop-zones="plugins.SvTemplate.SvTemplateDropZones"
                        editor-model="plugins.SvTemplate.SvTemplateEditorModel"
-                       use-react-config="false"
-                       use-binary-data="false"
+                       is-mojo="true"
+                       metric-minimum="1"
+                       scope="19"
+                       style-name="SvTemplate"
+                       widget-type="7"
                        categories="Custom"/>
     </visualization-list>
 </visualizations>

@@ -1,5 +1,6 @@
-/* Gallery icon. Library and Workstation load it from global.css; classic Web loads Html5ViPage.css,
-   so the same rule lives in both files. The ic-<name> class comes from style-name in visualizations.xml. */
-.ic-SvFunnelChart > div > div {
-    background: url("images/icon.svg") center / 28px 28px no-repeat scroll;
+/* Gallery icon (same selector and file as the Custom Visualization Tool's build output). */
+.mojo-theme-dark .mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvFunnelChart > div > div,
+.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvFunnelChart > div > div {
+    background: url("images/icon.svg") no-repeat scroll;
+    background-size: 30px;
 }
