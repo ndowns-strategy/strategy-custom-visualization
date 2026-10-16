@@ -24,7 +24,9 @@ Workstation's plugins folder and reopen the dashboard:
 
 ## Strategy Library / Web
 
-1. Unzip into the server's `plugins` folder so you end up with `plugins/<Name>/WEB-INF/...`:
+1. Unzip into the server's `plugins` folder so you end up with `plugins/<Name>/WEB-INF/...`.
+   **Don't rename the folder.** It must be exactly the plugin name (e.g. `SvFunnelChart`, not
+   `FunnelChart`), and it must not end up nested (`plugins/SvFunnelChart/SvFunnelChart/...`).
    - Library: `<Library install>/plugins`
    - Web (Tomcat/JSP): `<Tomcat>/webapps/MicroStrategy/plugins`
    - Web (IIS/ASP): `<Install>/Web ASPx/plugins`
@@ -33,6 +35,25 @@ Workstation's plugins folder and reopen the dashboard:
 
 Updates to JS or CSS in an already-registered plugin only need a cache-busting reload. New
 plugins, or changes to anything under `WEB-INF/`, need a restart.
+
+## Troubleshooting: the visualization doesn't appear
+
+Work through these in order:
+
+1. **Folder name.** On the server, the folder must be `plugins/<Name>` with exactly the name in
+   `mojoClassName` (`plugins.<Name>.<Name>`). A renamed folder registers nothing usable and shows
+   no error.
+2. **Folder depth.** `plugins/<Name>/WEB-INF/xml/config/visualizations.xml` must exist at that
+   exact depth.
+3. **Restart.** The web server only reads `WEB-INF/` at startup.
+4. **Browser cache.** Hard-reload, or open the dashboard in a private window.
+5. **Network tab.** Open the browser's dev tools → Network, filter for the plugin name and
+   reload. A 404 on `<Name>.js` means the folder name or path is wrong. No request at all means
+   the XML wasn't picked up, so recheck steps 1–3. A red error in the Console means a script error.
+6. **Blank gallery tile.** If the visualization is there but has no icon, check that
+   `style/global.css` contains the `.ic-<Name>` rule. `scripts/validate.py` checks this.
+7. **Compare with a known-good plugin** deployed the same way. If it doesn't appear either, the
+   problem is the server or deployment, not the plugin.
 
 ## Strategy Mobile
 

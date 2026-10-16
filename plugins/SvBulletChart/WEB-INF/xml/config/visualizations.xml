@@ -11,6 +11,8 @@
                        metric-minimum="1"
                        drop-zones="plugins.SvBulletChart.SvBulletChartDropZones"
                        editor-model="plugins.SvBulletChart.SvBulletChartEditorModel"
+                       use-react-config="false"
+                       use-binary-data="false"
                        categories="KPI,Custom"
                        summary="Compares an actual value to a target for each item, against poor / satisfactory / good bands"
                        use-case="Example: Revenue versus quota by sales region"

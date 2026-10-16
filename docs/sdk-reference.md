@@ -65,8 +65,8 @@ When this file and the official docs disagree, the docs win — but see
 │   ├── <PluginName>EditorModel.js    # Format-panel controls (CustomVisEditorModel)       — optional
 │   └── <library>.js                  # local copies of third-party libraries              — optional
 ├── style/
-│   ├── global.css                    # visualization CSS, scope to .custom-vis-layout.<cssClass>
-│   ├── Html5ViPage.css               # gallery icon rule
+│   ├── global.css                    # visualization CSS (scope to .custom-vis-layout.<cssClass>) + gallery icon rule
+│   ├── Html5ViPage.css               # copy of the gallery icon rule for classic Web
 │   └── images/icon.svg|png           # 28–30 px gallery icon
 └── WEB-INF/
     ├── xml/styleCatalog.xml          # style that maps to the JS class                    — required
@@ -84,9 +84,12 @@ Naming chain — these must agree or the visualization silently doesn't load:
 | styleCatalog `mojoClassName` | `plugins.SvBulletChart.SvBulletChart` |
 | styleCatalog `<Style name>` | `SvBulletChart` = visualizations.xml `style-name` |
 | visualizations.xml `drop-zones` / `editor-model` | `plugins.SvBulletChart.SvBulletChartDropZones` / `…EditorModel` |
-| Gallery icon CSS | `.item.ic-SvBulletChart` (uses `style-name`) |
+| Gallery icon CSS | `.ic-SvBulletChart` (uses `style-name`) |
 
-`scripts/validate.py` checks this whole chain.
+`scripts/validate.py` checks this whole chain. The chain includes the **folder name on the server**:
+`mojoClassName` `plugins.SvBulletChart.SvBulletChart` makes Strategy load
+`plugins/SvBulletChart/javascript/mojo/js/source/SvBulletChart.js`. If the folder is renamed during
+deployment, the code is never found and the visualization doesn't appear, with no error.
 
 ## 3. visualizations.xml
 
@@ -98,6 +101,7 @@ Naming chain — these must agree or the visualization silently doesn't load:
                    attribute-minimum="1" metric-minimum="1"
                    drop-zones="plugins.SvBulletChart.SvBulletChartDropZones"
                    editor-model="plugins.SvBulletChart.SvBulletChartEditorModel"
+                   use-react-config="false" use-binary-data="false"
                    categories="KPI,Custom"
                    summary="…" use-case="Example: …" requirements="Uses 1+ ##attributes### and 1 #metric###"/>
   </visualization-list>
@@ -117,10 +121,15 @@ Naming chain — these must agree or the visualization silently doesn't load:
 | `categories` | Gallery sections, comma-separated (default `Custom`). 2021 Update 5+. |
 | `summary`, `use-case`, `requirements` | Gallery hover tooltip — **all three or none**; overrides the min-count text. In `requirements`, `##…###` marks attribute text and `#…###` marks metric text (rendered with icons). |
 | `desc-id`, `summary-id`, `use-case-id`, `requirements-id` | i18n ids (`Prefix.N`) that override the literal strings. |
-| `use-react-config` | `"true"` to use the React Format panel (mstr-viz builds only). |
+| `use-react-config` | `"true"` = React Format panel (needs the mstr-viz-built `formatPanelConfig/` / `formatPanelBundles/`); `"false"` = classic `editor-model`. **Always set it explicitly**: the docs disagree on the default. |
+| `use-binary-data` | `"false"` for JSON grid data (what `DataInterface` here reads). The current tool always writes it. |
 
-The Custom Visualization Tool generates this file from `config.js` (`visualization_name`,
-`available_for_reports|documents|dossiers`, `min_number_of_attributes|metrics`).
+The Custom Visualization Tool (mstr-viz 2.15.x) generates this file from `config.js` and writes
+`desc`, `drop-zones`, `editor-model`, `is-mojo`, `scope`, `style-name`, `widget-type`, the gallery
+tooltip and i18n ids, `categories`, `use-react-config` and `use-binary-data`. It no longer writes
+`id`, `attribute-minimum` or `metric-minimum`. Its build also adds a `_custom_vis_` file and a
+`version.json` to the plugin. Those are only for the tool: `_custom_vis_` marks a folder the tool
+created so it may overwrite it. Strategy doesn't need either file.
 
 ## 4. styleCatalog.xml
 
@@ -465,9 +474,11 @@ externalLibraries: [
 
 ## 18. Gallery icon, placement and tooltip
 
-- `style/Html5ViPage.css`:
-  `.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-<style-name> > div > div { background … }`
-  — 28–30 px icon in `style/images/`. Add a `.mojo-theme-dark …` variant if the icon needs it.
+- Gallery icon: `.ic-<style-name> > div > div { background: url("images/icon.svg") … }` with a
+  28–30 px icon in `style/images/`. Put it in **`style/global.css`**: that's where the current Custom
+  Visualization Tool puts it, and its build replaces `Html5ViPage.css` with an empty placeholder.
+  The older docs only describe `Html5ViPage.css` (prefixed with `.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item`),
+  so this repo keeps the same rule in both files. Add a `.mojo-theme-dark …` variant if the icon needs it.
 - Document Insert-menu icon: `#RwMenuModel_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuLayoutxml #mnuInsertWg<Name>`
   (and the `RwMenuModelEditor_…` variant) in `global.css`.
 - `categories`, `summary`, `use-case`, `requirements` — §3.
@@ -493,7 +504,9 @@ zh-TW, da, de, nl, en-GB, en-US, fr (BE/FR/CH), de-CH, it (IT/CH), ja, ko, pl, p
 ## 21. Best practices
 
 - Scope every CSS rule: `.custom-vis-layout.<cssClass> …` — plugin CSS loads globally.
-- No spaces or symbols in plugin file/folder names.
+- No spaces or symbols in plugin file/folder names, and deploy the folder under its exact plugin name.
+- Keep plugin files ASCII; write other characters as `\uXXXX` escapes. Servers don't always serve
+  plugin files as UTF-8.
 - Minify libraries for production; keep them inside the plugin.
 - Clear and redraw in `plot()` (or reuse nodes deliberately with `reuseDOMNode: true`).
 - Don't call `setProperty` from `plot()` unless the value changed — each call is a server round trip.
@@ -529,6 +542,8 @@ zh-TW, da, de, nl, en-GB, en-US, fr (BE/FR/CH), de-CH, it (IT/CH), ja, ko, pl, p
 | `reportXMLStyle` | Older MstrVisTemplate: `VisualizationDataStyle` | `VisualizationServerJsonDataStyle` (current docs + samples). |
 | Icon class | Some pages show `ic-<Name>Style` | `ic-<style-name>`; we keep `style-name` = plugin name so they match. |
 | `addFilterMenuItem` vs `addUseAsFilterMenuItem` | Prose says the former, code the latter | `addUseAsFilterMenuItem()` (used by samples). |
+| `use-react-config` default | Gallery-placement page: default `true`; Build & deploy page: React panel disabled by default | Always set it explicitly (`"false"` for hand-written plugins). |
+| Gallery icon file | Icon pages: `Html5ViPage.css`; current mstr-viz build: `global.css` (Html5ViPage.css is an empty placeholder) | The same rule in both files. |
 
 If Strategy behaves differently from this table in your version, fix it here and in the template.
 

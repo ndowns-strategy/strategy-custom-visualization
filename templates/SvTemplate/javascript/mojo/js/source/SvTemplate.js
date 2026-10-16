@@ -98,7 +98,7 @@
                     }
                     gm.setCustomProperties({
                         sv: {
-                            label: names.join(" · "),
+                            label: names.join(" \u00b7 "),
                             value: value ? parseFloat(value.rv) || 0 : 0,
                             valueText: value ? value.v : ""
                         }

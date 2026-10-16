@@ -11,6 +11,8 @@
                        metric-minimum="1"
                        drop-zones="plugins.SvTemplate.SvTemplateDropZones"
                        editor-model="plugins.SvTemplate.SvTemplateEditorModel"
+                       use-react-config="false"
+                       use-binary-data="false"
                        categories="Custom"/>
     </visualization-list>
 </visualizations>

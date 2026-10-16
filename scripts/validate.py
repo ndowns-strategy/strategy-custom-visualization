@@ -136,6 +136,15 @@ def validate(plugin):
         if vis.get(k) is not None and not vis.get(k).isdigit():
             report.error(f"{k} must be a whole number")
 
+    # The docs disagree on the default, so the React Format panel flag must be explicit.
+    react = vis.get("use-react-config")
+    if react not in ("true", "false"):
+        report.error('<visualization> needs use-react-config="false" (or "true" with a built React Format panel)')
+    elif react == "true" and not ((plugin_dir / "formatPanelConfig").is_dir() or (plugin_dir / "formatPanelBundles").is_dir()):
+        report.error('use-react-config="true" but the plugin has no formatPanelConfig/ or formatPanelBundles/ (mstr-viz build output)')
+    if vis.get("use-binary-data") not in (None, "false"):
+        report.warn('use-binary-data is not "false"; hand-written plugins read JSON grid data')
+
     styles = {s.get("name"): s for s in cat_root.iter("Style")}
     style = styles.get(style_name)
     if style is None:
@@ -167,30 +176,48 @@ def validate(plugin):
         if found:
             check_js(found[0], found[1], report)
 
-    # CSS: icon selector and scoping.
-    page_css = plugin_dir / "style" / "Html5ViPage.css"
-    if not page_css.exists():
-        report.warn("no style/Html5ViPage.css (the gallery will show a default icon)")
-    elif f".ic-{style_name}" not in page_css.read_text(encoding="utf-8"):
-        report.warn(f"style/Html5ViPage.css has no .ic-{style_name} rule for the gallery icon")
-    else:
-        for url in re.findall(r'url\(["\']?([^"\')]+)', page_css.read_text(encoding="utf-8")):
-            if not (page_css.parent / url).resolve().exists():
-                report.error(f"style/Html5ViPage.css references missing file {url}")
-
+    # CSS: the gallery icon rule must be in global.css (what Library and Workstation load, and where the
+    # Custom Visualization Tool puts it); Html5ViPage.css carries a copy for classic Web.
+    icon_class = f".ic-{style_name}"
     global_css = plugin_dir / "style" / "global.css"
+    page_css = plugin_dir / "style" / "Html5ViPage.css"
+    if not global_css.exists():
+        report.error("missing style/global.css")
+    elif icon_class not in global_css.read_text(encoding="utf-8"):
+        report.error(f"style/global.css has no {icon_class} rule, so Library/Workstation show a blank gallery icon")
+    if not page_css.exists():
+        report.warn("no style/Html5ViPage.css (classic Web shows a default gallery icon)")
+    elif icon_class not in page_css.read_text(encoding="utf-8"):
+        report.warn(f"style/Html5ViPage.css has no {icon_class} rule (classic Web gallery icon)")
+    for css_file in (global_css, page_css):
+        if css_file.exists():
+            for url in re.findall(r'url\(["\']?([^"\')]+)', css_file.read_text(encoding="utf-8")):
+                if not (css_file.parent / url).resolve().exists():
+                    report.error(f"{css_file.relative_to(ROOT)} references missing file {url}")
+
     if global_css.exists() and css_class:
         scope = f".custom-vis-layout.{css_class}"
         text = re.sub(r"/\*.*?\*/", "", global_css.read_text(encoding="utf-8"), flags=re.S)
         for selector_group in re.findall(r"([^{}]+)\{", text):
             for selector in selector_group.split(","):
                 selector = selector.strip()
-                if selector and not selector.startswith(scope) and not selector.startswith("#RwMenuModel") and not selector.startswith("@"):
+                allowed = (scope, icon_class, "#RwMenuModel", "@")
+                if selector and not selector.startswith(allowed):
                     report.warn(f'style/global.css: selector "{selector}" is not scoped to {scope}')
 
     for path in plugin_dir.rglob("*"):
-        if path.is_file() and re.search(r"[^A-Za-z0-9._-]", path.name):
+        if not path.is_file():
+            continue
+        if re.search(r"[^A-Za-z0-9._-]", path.name):
             report.warn(f"{path.relative_to(ROOT)}: avoid spaces/symbols in file names inside a plugin")
+        if path.suffix in (".js", ".css", ".xml", ".svg"):
+            data = path.read_bytes()
+            if data.startswith(b"\xef\xbb\xbf"):
+                report.error(f"{path.relative_to(ROOT)}: remove the UTF-8 byte-order mark")
+            bad = [i + 1 for i, line in enumerate(data.split(b"\n")) if any(b > 127 for b in line)]
+            if bad:
+                report.error(f"{path.relative_to(ROOT)}: non-ASCII characters on line(s) {bad[:5]}; "
+                             "use \\uXXXX escapes (servers may not serve plugin files as UTF-8)")
     return report
 
 

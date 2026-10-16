@@ -92,7 +92,7 @@
         // Proportional first guess, then trim until it really fits.
         var keep = Math.max(1, Math.floor(fullText.length * maxWidth / length));
         do {
-            textEl.textContent = fullText.slice(0, keep) + "…";
+            textEl.textContent = fullText.slice(0, keep) + "\u2026";
             keep--;
         } while (keep > 0 && measure() > maxWidth);
         svg("title", {}, textEl).textContent = fullText;
@@ -214,7 +214,7 @@
                     }
                     gm.setCustomProperties({
                         sv: {
-                            label: names.join(" · "),
+                            label: names.join(" \u00b7 "),
                             actual: actual ? toNumber(actual.rv, 0) : 0,
                             actualText: actual ? actual.v : "",
                             target: target ? toNumber(target.rv, null) : null,

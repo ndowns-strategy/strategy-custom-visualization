@@ -16,7 +16,7 @@ used here, including the "Doc inconsistencies" table.
 ## Commands
 
 - Preview: `python3 -m http.server 8765`, then open `http://localhost:8765/dev/?plugin=<Name>&dataset=<id>[&theme=dark]`
-  (datasets: `sales`, `kpis`, `single`, `empty`). `.claude/launch.json` defines this as `harness`.
+  (datasets: `sales`, `pipeline`, `kpis`, `single`, `empty`). `.claude/launch.json` defines this as `harness`.
 - Validate: `python3 -I scripts/validate.py [Name]`
 - New plugin: `scripts/new-viz.sh SvName "Display Name"`
 - Package: `scripts/package.sh [Name]`, which writes `dist/<Name>.zip`
@@ -29,7 +29,12 @@ used here, including the "Doc inconsistencies" table.
   styleCatalog `mojoClassName` (`plugins.<Name>.<Name>`) = `style-name` = `.ic-<Name>`.
 - Draw with plain SVG/DOM. Don't add third-party libraries to a hand-written plugin; see
   `docs/mstr-viz-toolchain.md` for that route.
-- Scope all CSS under `.custom-vis-layout.<cssClass>`.
+- Scope all CSS under `.custom-vis-layout.<cssClass>`. The one exception is the gallery icon rule
+  `.ic-<Name> > div > div`, which goes in `global.css` (Library/Workstation) and again in
+  `Html5ViPage.css` (classic Web).
+- `visualizations.xml` must set `use-react-config="false"` and `use-binary-data="false"` explicitly.
+- Plugin files must be ASCII; write other characters as `\uXXXX` escapes.
+- Deploy the folder under its exact plugin name. A renamed folder silently fails to load.
 - Property values are strings. Declare every property in `DEFAULT_PROPS` and call
   `setDefaultPropertyValues` before `getProperty`. Never call `setProperty` unconditionally in `plot()`.
 - Selection: `handleSelection(evt.e, gm)` and `handleContextMenuSelection(evt.e, gm)` (event
@@ -41,7 +46,7 @@ used here, including the "Doc inconsistencies" table.
 ## Verifying a change
 
 1. `python3 -I scripts/validate.py` reports no errors.
-2. In the harness, load the plugin with every dataset (`sales`, `kpis`, `single`, `empty`) in light
+2. In the harness, load the plugin with every dataset (`sales`, `pipeline`, `kpis`, `single`, `empty`) in light
    and dark themes. Click, Ctrl-click, right-click and hover, change each Format-panel control, and
    use "Simulate PDF export". The harness's warnings box and the browser console should stay empty.
 3. The harness is a mock. Tell the user that real verification needs Workstation or Library
