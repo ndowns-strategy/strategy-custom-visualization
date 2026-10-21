@@ -74,6 +74,33 @@
             ]
         },
         {
+            // Modeled on the KPI reference: Mar 2023 profit $16,000,000.00 is 14.8% below cost.
+            id: "monthly",
+            name: "Monthly profit vs. cost (12 months)",
+            attributes: [
+                {id: "ATTR_MONTH", name: "Month"}
+            ],
+            metrics: [
+                {id: "MET_M_PROFIT", name: "Profit", format: {prefix: "$", decimals: 2}},
+                {id: "MET_M_COST", name: "Cost", format: {prefix: "$", decimals: 2}},
+                {id: "MET_M_REVENUE", name: "Revenue", format: {prefix: "$", decimals: 2}}
+            ],
+            rows: [
+                ["Apr 2022", 16450000, 19210000, 35660000],
+                ["May 2022", 16020000, 18640000, 34660000],
+                ["Jun 2022", 16980000, 19870000, 36850000],
+                ["Jul 2022", 16710000, 19380000, 36090000],
+                ["Aug 2022", 16090000, 18850000, 34940000],
+                ["Sep 2022", 15930000, 18710000, 34640000],
+                ["Oct 2022", 16240000, 18980000, 35220000],
+                ["Nov 2022", 16480000, 19160000, 35640000],
+                ["Dec 2022", 16390000, 18900000, 35290000],
+                ["Jan 2023", 16620000, 19240000, 35860000],
+                ["Feb 2023", 16710000, 19050000, 35760000],
+                ["Mar 2023", 16000000, 18779342.72, 34779342.72]
+            ]
+        },
+        {
             id: "kpis",
             name: "Department KPIs (long labels, a negative value)",
             attributes: [

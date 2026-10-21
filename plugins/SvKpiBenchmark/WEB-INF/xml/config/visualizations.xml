@@ -1,0 +1,17 @@
+<visualizations>
+    <visualization-list name="ajax" show-in-web="true" view-mode="51">
+        <visualization attribute-minimum="1"
+                       desc="KPI Benchmark Period Comparison"
+                       drop-zones="plugins.SvKpiBenchmark.SvKpiBenchmarkDropZones"
+                       editor-model="plugins.SvKpiBenchmark.SvKpiBenchmarkEditorModel"
+                       is-mojo="true"
+                       metric-minimum="1"
+                       scope="19"
+                       style-name="SvKpiBenchmark"
+                       widget-type="7"
+                       categories="KPI,Custom"
+                       summary="Shows the latest period value of a metric, how it compares with a benchmark or target, and a trend of both across the timeline"
+                       use-case="Example: Monthly profit versus cost for the latest month, with the last 12 months as a trend"
+                       requirements="Uses 1 ##attribute### (timeline) and 2 #metrics### (value and benchmark)"/>
+    </visualization-list>
+</visualizations>

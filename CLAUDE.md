@@ -16,7 +16,7 @@ used here, including the "Doc inconsistencies" table.
 ## Commands
 
 - Preview: `python3 -m http.server 8765`, then open `http://localhost:8765/dev/?plugin=<Name>&dataset=<id>[&theme=dark]`
-  (datasets: `sales`, `pipeline`, `kpis`, `single`, `empty`). `.claude/launch.json` defines this as `harness`.
+  (datasets: `sales`, `pipeline`, `monthly`, `kpis`, `single`, `empty`). `.claude/launch.json` defines this as `harness`.
 - Validate: `python3 -I scripts/validate.py [Name]`
 - New plugin: `scripts/new-viz.sh SvName "Display Name"`
 - Package: `scripts/package.sh [Name]`, which writes `dist/<Name>.zip`
@@ -50,7 +50,7 @@ used here, including the "Doc inconsistencies" table.
 ## Verifying a change
 
 1. `python3 -I scripts/validate.py` reports no errors.
-2. In the harness, load the plugin with every dataset (`sales`, `pipeline`, `kpis`, `single`, `empty`) in light
+2. In the harness, load the plugin with every dataset (`sales`, `pipeline`, `monthly`, `kpis`, `single`, `empty`) in light
    and dark themes. Click, Ctrl-click, right-click and hover, change each Format-panel control, and
    use "Simulate PDF export". The harness's warnings box and the browser console should stay empty.
 3. The harness is a mock. Tell the user that real verification needs Workstation or Library

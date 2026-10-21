@@ -1,0 +1,148 @@
+/* Every rule is scoped to this visualization's container so nothing leaks into Strategy's own UI. */
+
+.custom-vis-layout.svkpibenchmark .sv-kpi {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+    overflow: hidden;
+    color: #1f1f1f;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-empty {
+    color: #6b6b6b;
+    font-size: 12px;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-head {
+    align-self: flex-start;
+    max-width: 100%;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-align-center .sv-kpi-head {
+    align-self: center;
+    text-align: center;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-align-right .sv-kpi-head {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-value {
+    line-height: 1.1;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-comp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-align-center .sv-kpi-comp {
+    justify-content: center;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-align-right .sv-kpi-comp {
+    justify-content: flex-end;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-comp-right {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 14px;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-comp-right .sv-kpi-comp {
+    margin-top: 0;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-delta {
+    font-variant-numeric: tabular-nums;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-label {
+    color: #5f6368;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-trend {
+    margin-top: 8px;
+    cursor: crosshair;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-svg {
+    display: block;
+    overflow: visible;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+/* Dotted benchmark line, like the reference: round dots spaced along the path. */
+.custom-vis-layout.svkpibenchmark .sv-kpi-bench {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 5;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-guide line {
+    stroke: #9aa0a6;
+    stroke-dasharray: 2 2;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-ring {
+    fill: none;
+    stroke: #1f1f1f;
+    stroke-width: 2;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-ring-context {
+    stroke-dasharray: 2 2;
+}
+
+.custom-vis-layout.svkpibenchmark .sv-kpi-axis {
+    fill: #5f6368;
+    font-size: 10px;
+}
+
+/* Dark theme (the plugin adds .sv-dark when mstrApp reports a dark theme). */
+.custom-vis-layout.svkpibenchmark .sv-kpi.sv-dark { color: #e8eaed; }
+.custom-vis-layout.svkpibenchmark .sv-dark .sv-kpi-label { color: #bdc1c6; }
+.custom-vis-layout.svkpibenchmark .sv-dark .sv-kpi-axis { fill: #bdc1c6; }
+.custom-vis-layout.svkpibenchmark .sv-dark .sv-kpi-ring { stroke: #f1f3f4; }
+
+/* Gallery icon (same selector and file as the Custom Visualization Tool's build output). */
+.mojo-theme-dark .mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvKpiBenchmark > div > div,
+.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvKpiBenchmark > div > div {
+    background: url("images/icon.svg") no-repeat scroll;
+    background-size: 30px;
+}
+
+/* Icon in the document Insert > Widget menu. */
+#RwMenuModel_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuLayoutxml #mnuInsertWgSvKpiBenchmark,
+#RwMenuModelEditor_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuEditorLayoutxml #mnuInsertWgSvKpiBenchmark {
+    background: url("images/icon.svg") 4px center / 12px 12px no-repeat scroll;
+    padding: 3px 0 3px 14px;
+}

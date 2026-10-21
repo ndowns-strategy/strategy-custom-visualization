@@ -1,0 +1,6 @@
+/* Gallery icon (same selector and file as the Custom Visualization Tool's build output). */
+.mojo-theme-dark .mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvKpiBenchmark > div > div,
+.mstrmojo-VIGallery .mstrmojo-VIGalleryList .item.ic-SvKpiBenchmark > div > div {
+    background: url("images/icon.svg") no-repeat scroll;
+    background-size: 30px;
+}
