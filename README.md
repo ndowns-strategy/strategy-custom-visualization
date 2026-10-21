@@ -8,6 +8,17 @@ Each visualization is a self-contained plugin folder under `plugins/`. Copy it i
 with its own drop zones, Format-panel settings, selection/filtering, tooltips, context menu and PDF
 export.
 
+## Download
+
+Ready-to-deploy zips are on the **[latest release](https://github.com/ndowns-strategy/strategy-custom-visualization/releases/latest)**:
+
+- [SvBulletChart.zip](https://github.com/ndowns-strategy/strategy-custom-visualization/releases/latest/download/SvBulletChart.zip): Bullet Chart
+- [SvFunnelChart.zip](https://github.com/ndowns-strategy/strategy-custom-visualization/releases/latest/download/SvFunnelChart.zip): Funnel Chart
+
+These links always point to the newest release. Older versions are on the
+[releases page](https://github.com/ndowns-strategy/strategy-custom-visualization/releases). See
+[Deploy](#deploy) for how to install them.
+
 ## Visualizations
 
 | Plugin | Gallery name | What it shows | Data |
@@ -63,9 +74,15 @@ scripts/package.sh SvWaterfall
 
 ## Deploy
 
-`scripts/package.sh <Name>` writes `dist/<Name>.zip`. In Workstation, use **Gallery → Custom → + →
-Import Visualization**. For Library or Web, unzip it into the server's `plugins` folder and restart
-the web server. The full guide, including Mobile, is in [docs/deployment.md](docs/deployment.md).
+Use a zip from the [latest release](#download), or build your own with `scripts/package.sh <Name>`,
+which writes `dist/<Name>.zip`. In Workstation, use **Gallery → Custom → + → Import Visualization**.
+For Library or Web, unzip it into the server's `plugins` folder **without renaming the folder**, then
+restart the web server. The full guide, including Mobile and troubleshooting, is in
+[docs/deployment.md](docs/deployment.md).
+
+To publish a new release after changing a plugin: run `scripts/package.sh`, commit and push, then
+create a GitHub release with the next version tag (e.g. `v1.1.0`) and attach the zips from `dist/`.
+Use the same file names, so the download links above keep working.
 
 ## Repository layout
 
